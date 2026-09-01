@@ -2,7 +2,7 @@ package com.cpt.payments_processing_service.controller;
 
 import com.cpt.payments_processing_service.dto.request.PaymentRequestDTO;
 import com.cpt.payments_processing_service.pojo.request.PaymentRequest;
-import com.cpt.payments_processing_service.service.PaymentService;
+import com.cpt.payments_processing_service.service.interfaces.PaymentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
