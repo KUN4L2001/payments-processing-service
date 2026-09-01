@@ -1,3 +1,5 @@
 spring:
   application:
     name: payments-processing-service
+  jackson:
+    property-naming-strategy: SNAKE_CASE
