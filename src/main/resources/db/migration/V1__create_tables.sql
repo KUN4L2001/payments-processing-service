@@ -1,0 +1,5 @@
+CREATE TABLE payment (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(10,2),
+    status VARCHAR(50)
+);
