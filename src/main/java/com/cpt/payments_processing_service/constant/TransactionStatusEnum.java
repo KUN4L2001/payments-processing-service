@@ -5,10 +5,9 @@ import lombok.Getter;
 public enum TransactionStatusEnum {
     CREATED(1,"CREATED"),
     INITIATED(2,"INITIATED"),
+	PENDING(4,"PENDING"),
     SUCCESS(3,"SUCCESS"),
-    PENDING(4,"PENDING"),
-    FAILED(5,"FAILED"),
-    NA(6,"NA");
+    FAILED(5,"FAILED");
 
     @Getter
     private final int id;
@@ -26,7 +25,9 @@ public enum TransactionStatusEnum {
                 return status;
             }
         }
-        return NA;
+		throw new IllegalArgumentException(
+				"Invalid transaction status id: " + id
+		);
     }
 
     public static TransactionStatusEnum getByName(String name){
@@ -35,6 +36,8 @@ public enum TransactionStatusEnum {
                 return status;
             }
         }
-        return NA;
+		throw new IllegalArgumentException(
+				"Invalid transaction status name: " + name
+		);
     }
 }

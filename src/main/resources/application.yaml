@@ -4,7 +4,7 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
   datasource:
-    url: jdbc:mysql://localhost:3306/flyway_demo
+    url: jdbc:mysql://localhost:3306/payments
     username: root
     password: root
   jpa:
@@ -19,3 +19,45 @@ logging:
   level:
     org.flywaydb: DEBUG
     org.springframework.boot.autoconfigure.flyway: DEBUG
+
+payment:
+  query:
+    create-transaction: |
+      INSERT INTO payments.`Transaction`
+      (
+          userId,
+          paymentMethodId,
+          providerId,
+          paymentTypeId,
+          txnStatusId,
+          amount,
+          currency,
+          merchantTransactionReference,
+          txnReference
+      )
+      VALUES
+      (
+          :userId,
+          :paymentMethodId,
+          :providerId,
+          :paymentTypeId,
+          :txnStatusId,
+          :amount,
+          :currency,
+          :merchantTransactionReference,
+          :txnReference
+      )
+
+    create-transaction-log: |
+      INSERT INTO payments.`Transaction_Log`
+      (
+          transactionId,
+          txnFromStatus,
+          txnToStatus
+      )
+      VALUES
+      (
+          :transactionId,
+          :txnFromStatus,
+          :txnToStatus
+      )

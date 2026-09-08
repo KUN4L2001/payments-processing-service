@@ -21,11 +21,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public ResponseEntity<TransactionResponse> createPayment(PaymentRequestDTO requestDTO) {
-        TransactionStatusEnum status = TransactionStatusEnum.getByName(requestDTO.getPaymentMode());
-        PaymentStatusHandler paymentMode = factoryPattern.getStatusHandler(status);
-
-        TransactionResponse response = paymentMode.processPayment(requestDTO);
-        return ResponseEntity.ok(response);
+    public TransactionResponse createPayment(PaymentRequestDTO requestDTO) {
+        TransactionStatusEnum status = TransactionStatusEnum.getByName(requestDTO.getTxnStatus());
+        PaymentStatusHandler paymentStatus = factoryPattern.getStatusHandler(status);
+		return paymentStatus.processPayment(requestDTO);
     }
 }
