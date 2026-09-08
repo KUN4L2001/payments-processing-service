@@ -13,40 +13,36 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 public class TransactionDaoImpl implements TransactionDao {
 
-    @PersistenceContext private EntityManager entityManager;
-	@Autowired private QueryProperties queryProperties;
+  @PersistenceContext private EntityManager entityManager;
+  @Autowired private QueryProperties queryProperties;
 
-    @Override
-    public TransactionResponse createTransaction(PaymentRequestEntity request) {
+  @Override
+  public TransactionResponse createTransaction(PaymentRequestEntity request) {
 
-		log.debug("Query: {}", queryProperties.getCreateTransaction());
-        Query query = entityManager.createNativeQuery(queryProperties.getCreateTransaction());
+    log.debug("Query: {}", queryProperties.getCreateTransaction());
+    Query query = entityManager.createNativeQuery(queryProperties.getCreateTransaction());
 
-		query.setParameter("userId", request.getUserId());
-		query.setParameter("paymentMethodId", PaymentMethodEnum.getByName(request.getPaymentMethod()).getId());
-		query.setParameter("providerId", ProviderEnum.getByName(request.getProvider()).getId());
-		query.setParameter("paymentTypeId", PaymentTypeEnum.getByName(request.getPaymentType()).getId());
-		query.setParameter("txnStatusId", TransactionStatusEnum.getByName(request.getTxnStatus()).getId());
-		query.setParameter("amount", request.getAmount());
-		query.setParameter("currency", request.getCurrency());
-		query.setParameter(
-				"merchantTransactionReference",
-				request.getMerchantTxnRef()
-		);
-		query.setParameter(
-				"txnReference",
-				request.getTxnReference()
-		);
+    query.setParameter("userId", request.getUserId());
+    query.setParameter(
+        "paymentMethodId", PaymentMethodEnum.getByName(request.getPaymentMethod()).getId());
+    query.setParameter("providerId", ProviderEnum.getByName(request.getProvider()).getId());
+    query.setParameter(
+        "paymentTypeId", PaymentTypeEnum.getByName(request.getPaymentType()).getId());
+    query.setParameter(
+        "txnStatusId", TransactionStatusEnum.getByName(request.getTxnStatus()).getId());
+    query.setParameter("amount", request.getAmount());
+    query.setParameter("currency", request.getCurrency());
+    query.setParameter("merchantTransactionReference", request.getMerchantTxnRef());
+    query.setParameter("txnReference", request.getTxnReference());
 
-		query.executeUpdate();
+    query.executeUpdate();
 
-        return new TransactionResponse(TransactionStatusEnum.CREATED.getName());
-    }
+    return new TransactionResponse(TransactionStatusEnum.CREATED.getName());
+  }
 }

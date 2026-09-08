@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "payment.query")
 public class QueryProperties {
-	private String createTransaction;
-	private String createTransactionLog;
+  private String createTransaction;
+  private String createTransactionLog;
 }

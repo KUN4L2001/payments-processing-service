@@ -3,41 +3,35 @@ package com.cpt.payments_processing_service.constant;
 import lombok.Getter;
 
 public enum TransactionStatusEnum {
-    CREATED(1,"CREATED"),
-    INITIATED(2,"INITIATED"),
-	PENDING(4,"PENDING"),
-    SUCCESS(3,"SUCCESS"),
-    FAILED(5,"FAILED");
+  CREATED(1, "CREATED"),
+  INITIATED(2, "INITIATED"),
+  PENDING(4, "PENDING"),
+  SUCCESS(3, "SUCCESS"),
+  FAILED(5, "FAILED");
 
-    @Getter
-    private final int id;
-    @Getter
-    private final String name;
+  @Getter private final int id;
+  @Getter private final String name;
 
-    TransactionStatusEnum(int id, String name){
-        this.id = id;
-        this.name = name;
+  TransactionStatusEnum(int id, String name) {
+    this.id = id;
+    this.name = name;
+  }
+
+  public static TransactionStatusEnum getById(int id) {
+    for (TransactionStatusEnum status : values()) {
+      if (status.getId() == id) {
+        return status;
+      }
     }
+    throw new IllegalArgumentException("Invalid transaction status id: " + id);
+  }
 
-    public static TransactionStatusEnum getById(int id){
-        for(TransactionStatusEnum status: values()){
-            if(status.getId() == id){
-                return status;
-            }
-        }
-		throw new IllegalArgumentException(
-				"Invalid transaction status id: " + id
-		);
+  public static TransactionStatusEnum getByName(String name) {
+    for (TransactionStatusEnum status : values()) {
+      if (status.getName().equalsIgnoreCase(name)) {
+        return status;
+      }
     }
-
-    public static TransactionStatusEnum getByName(String name){
-        for(TransactionStatusEnum status: values()){
-            if(status.getName().equalsIgnoreCase(name)){
-                return status;
-            }
-        }
-		throw new IllegalArgumentException(
-				"Invalid transaction status name: " + name
-		);
-    }
+    throw new IllegalArgumentException("Invalid transaction status name: " + name);
+  }
 }

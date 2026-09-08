@@ -9,16 +9,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PaymentFactoryPattern {
-    @Autowired private ApplicationContext context;
+  @Autowired private ApplicationContext context;
 
-    public PaymentStatusHandler getStatusHandler(TransactionStatusEnum status){
-        switch (status) {
-            case CREATED: {
-                return context.getBean(CreatedStatusHandler.class);
-            }
-            default: {
-                return null;
-            }
+  public PaymentStatusHandler getStatusHandler(TransactionStatusEnum status) {
+    switch (status) {
+      case CREATED:
+        {
+          return context.getBean(CreatedStatusHandler.class);
+        }
+      default:
+        {
+          return null;
         }
     }
+  }
 }

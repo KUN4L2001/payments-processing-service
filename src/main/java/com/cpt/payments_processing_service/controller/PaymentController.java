@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/payments")
 public class PaymentController {
 
-    @Autowired private PaymentService paymentService;
-    @Autowired private ModelMapper modelMapper;
+  @Autowired private PaymentService paymentService;
+  @Autowired private ModelMapper modelMapper;
 
-    @PostMapping("/create")
-    public ResponseEntity<TransactionResponse> createPayment(@RequestBody GenericRequest<PaymentRequest> request){
-        PaymentRequestDTO requestDTO = modelMapper.map(request.getData(), PaymentRequestDTO.class);
-        TransactionResponse response = paymentService.createPayment(requestDTO);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+  @PostMapping("/create")
+  public ResponseEntity<TransactionResponse> createPayment(
+      @RequestBody GenericRequest<PaymentRequest> request) {
+    PaymentRequestDTO requestDTO = modelMapper.map(request.getData(), PaymentRequestDTO.class);
+    TransactionResponse response = paymentService.createPayment(requestDTO);
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+  }
 }

@@ -4,5 +4,5 @@ import com.cpt.payments_processing_service.dto.request.PaymentRequestDTO;
 import com.cpt.payments_processing_service.pojo.response.TransactionResponse;
 
 public abstract class PaymentStatusHandler {
-    public abstract TransactionResponse processPayment(PaymentRequestDTO requestDTO);
+  public abstract TransactionResponse processPayment(PaymentRequestDTO requestDTO);
 }

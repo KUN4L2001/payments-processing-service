@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class GenericRequest<T> {
-	private T data;
+  private T data;
 }

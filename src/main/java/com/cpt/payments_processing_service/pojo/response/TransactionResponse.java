@@ -7,6 +7,5 @@ import lombok.NonNull;
 @Data
 @AllArgsConstructor
 public class TransactionResponse {
-	@NonNull
-    private String status;
+  @NonNull private String status;
 }

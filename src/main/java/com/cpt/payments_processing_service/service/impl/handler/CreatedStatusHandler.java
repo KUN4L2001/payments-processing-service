@@ -14,14 +14,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CreatedStatusHandler extends PaymentStatusHandler {
 
-    @Autowired private TransactionDao transactionDao;
-    @Autowired private ModelMapper modelMapper;
+  @Autowired private TransactionDao transactionDao;
+  @Autowired private ModelMapper modelMapper;
 
-    @Override
-    public TransactionResponse processPayment(PaymentRequestDTO requestDTO) {
-        log.info("Inside CreatePayment {}",requestDTO);
-        PaymentRequestEntity request = modelMapper.map(requestDTO, PaymentRequestEntity.class);
-        TransactionResponse response = transactionDao.createTransaction(request);
-        return response;
-    }
+  @Override
+  public TransactionResponse processPayment(PaymentRequestDTO requestDTO) {
+    log.info("Inside CreatePayment {}", requestDTO);
+    PaymentRequestEntity request = modelMapper.map(requestDTO, PaymentRequestEntity.class);
+    TransactionResponse response = transactionDao.createTransaction(request);
+    return response;
+  }
 }
