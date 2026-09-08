@@ -1,10 +1,13 @@
 package com.cpt.payments_processing_service.dao.impl;
 
+import com.cpt.payments_processing_service.constant.TransactionStatusEnum;
 import com.cpt.payments_processing_service.dao.interfaces.TransactionDao;
 import com.cpt.payments_processing_service.entity.PaymentRequestEntity;
+import com.cpt.payments_processing_service.pojo.response.TransactionResponse;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +17,7 @@ public class TransactionDaoImpl implements TransactionDao {
     private EntityManager entityManager;
 
     @Override
-    public String createTransaction(PaymentRequestEntity request) {
+    public TransactionResponse createTransaction(PaymentRequestEntity request) {
 
         Query query = entityManager.createNativeQuery("""
                 INSERT INTO payment_transaction
@@ -31,6 +34,6 @@ public class TransactionDaoImpl implements TransactionDao {
 
         query.executeUpdate();
 
-        return "Transaction created";
+        return new TransactionResponse(TransactionStatusEnum.CREATED.getName());
     }
 }
