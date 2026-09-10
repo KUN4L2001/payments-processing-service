@@ -2,8 +2,8 @@ package com.cpt.payments_processing_service.service.impl.handler;
 
 import com.cpt.payments_processing_service.dao.*;
 import com.cpt.payments_processing_service.dto.request.PaymentRequestDTO;
+import com.cpt.payments_processing_service.dto.response.TransactionResponseDTO;
 import com.cpt.payments_processing_service.entity.*;
-import com.cpt.payments_processing_service.pojo.response.TransactionResponse;
 import com.cpt.payments_processing_service.service.interfaces.PaymentStatusHandler;
 import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class CreatedStatusHandler extends PaymentStatusHandler {
   @Autowired private ModelMapper modelMapper;
 
   @Override
-  public TransactionResponse processPayment(PaymentRequestDTO requestDTO) {
+  public TransactionResponseDTO processPayment(PaymentRequestDTO requestDTO) {
     log.info("Inside CreatePayment {}", requestDTO);
 
     PaymentMethodEntity paymentMethod =
@@ -72,7 +72,7 @@ public class CreatedStatusHandler extends PaymentStatusHandler {
     transaction.setTxnReference(requestDTO.getTxnReference());
 
     TransactionEntity savedTransaction = transactionRepository.save(transaction);
-    return TransactionResponse.builder()
+    return TransactionResponseDTO.builder()
         .id(savedTransaction.getTxnId())
         .status(savedTransaction.getTxnStatus().getName())
         .build();

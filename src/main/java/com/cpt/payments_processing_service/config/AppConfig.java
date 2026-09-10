@@ -15,12 +15,12 @@ public class AppConfig {
   }
 
   @Bean
-  public ObjectMapper objectMapper(){
-      return new ObjectMapper();
+  public ObjectMapper objectMapper() {
+    return new ObjectMapper();
   }
 
   @Bean
-  public WebClient webClient(){
-      return WebClient.builder().build();
+  public WebClient webClient() {
+    return WebClient.builder().build();
   }
 }

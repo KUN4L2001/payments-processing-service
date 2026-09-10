@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class InitiateResponseDTO {
-    private String id;
-    private String url;
+  private String id;
+  private String url;
 }

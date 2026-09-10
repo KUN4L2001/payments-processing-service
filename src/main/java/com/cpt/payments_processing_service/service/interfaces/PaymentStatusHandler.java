@@ -1,8 +1,8 @@
 package com.cpt.payments_processing_service.service.interfaces;
 
 import com.cpt.payments_processing_service.dto.request.PaymentRequestDTO;
-import com.cpt.payments_processing_service.pojo.response.TransactionResponse;
+import com.cpt.payments_processing_service.dto.response.TransactionResponseDTO;
 
 public abstract class PaymentStatusHandler {
-  public abstract TransactionResponse processPayment(PaymentRequestDTO requestDTO);
+  public abstract TransactionResponseDTO processPayment(PaymentRequestDTO requestDTO);
 }
