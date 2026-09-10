@@ -1,5 +1,6 @@
 package com.cpt.payments_processing_service.controller;
 
+import com.cpt.payments_processing_service.dto.request.InitiateRequestDTO;
 import com.cpt.payments_processing_service.dto.request.PaymentRequestDTO;
 import com.cpt.payments_processing_service.dto.response.InitiateResponseDTO;
 import com.cpt.payments_processing_service.dto.response.TransactionResponseDTO;
@@ -24,14 +25,14 @@ public class PaymentController {
   @PostMapping("/create")
   public ResponseEntity<TransactionResponseDTO> createPayment(
       @RequestBody GenericRequest<PaymentRequestDTO> request) {
-    TransactionResponseDTO response = paymentService.createPayment(request);
+    TransactionResponseDTO response = paymentService.createPayment(request.getData());
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   @PostMapping("/initiate")
   public ResponseEntity<InitiateResponseDTO> initiatePayment(
-      @RequestBody GenericRequest<InitiateRequest> request) {
-    InitiateResponseDTO response = paymentService.initiatePayment(request);
+      @RequestBody GenericRequest<InitiateRequestDTO> request) {
+    InitiateResponseDTO response = paymentService.initiatePayment(request.getData());
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

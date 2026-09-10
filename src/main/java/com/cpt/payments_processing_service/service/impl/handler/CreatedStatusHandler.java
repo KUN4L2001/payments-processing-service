@@ -7,7 +7,6 @@ import com.cpt.payments_processing_service.entity.*;
 import com.cpt.payments_processing_service.service.interfaces.PaymentStatusHandler;
 import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,7 @@ public class CreatedStatusHandler extends PaymentStatusHandler {
   @Autowired private PaymentTypeRepository paymentTypeRepository;
   @Autowired private ProviderRepository providerRepository;
   @Autowired private TransactionStatusRepository transactionStatusRepository;
-  @Autowired private ModelMapper modelMapper;
+  @Autowired private TransactionLogRepository transactionLogRepository;
 
   @Override
   public TransactionResponseDTO processPayment(PaymentRequestDTO requestDTO) {
@@ -72,6 +71,14 @@ public class CreatedStatusHandler extends PaymentStatusHandler {
     transaction.setTxnReference(requestDTO.getTxnReference());
 
     TransactionEntity savedTransaction = transactionRepository.save(transaction);
+
+    TransactionLogEntity transactionLog = new TransactionLogEntity();
+
+    transactionLog.setTransaction(savedTransaction);
+    transactionLog.setTxnFromStatus("-1");
+    transactionLog.setTxnToStatus(status.getName());
+
+    transactionLogRepository.save(transactionLog);
     return TransactionResponseDTO.builder()
         .id(savedTransaction.getTxnId())
         .status(savedTransaction.getTxnStatus().getName())

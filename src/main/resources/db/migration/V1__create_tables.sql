@@ -87,7 +87,7 @@ CREATE TABLE payments.`Transaction` (
 
 -- OneToMany Transaction -> Transaction_Log
 CREATE TABLE payments.`Transaction_Log` (
-    `ID` INT NOT NULL AUTO_INCREMENT,
+    `ID` VARCHAR(36) NOT NULL,
     `TXN_ID` VARCHAR(36) NOT NULL,
     `TXN_FROM_STATUS` VARCHAR(50) DEFAULT '-1',
     `TXN_TO_STATUS` VARCHAR(50) DEFAULT '-1',
