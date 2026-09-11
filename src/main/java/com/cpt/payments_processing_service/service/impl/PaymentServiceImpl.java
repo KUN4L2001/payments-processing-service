@@ -1,10 +1,16 @@
 package com.cpt.payments_processing_service.service.impl;
 
 import com.cpt.payments_processing_service.constant.TransactionStatusEnum;
+import com.cpt.payments_processing_service.dao.TransactionLogRepository;
+import com.cpt.payments_processing_service.dao.TransactionRepository;
+import com.cpt.payments_processing_service.dao.TransactionStatusRepository;
 import com.cpt.payments_processing_service.dto.request.InitiateRequestDTO;
 import com.cpt.payments_processing_service.dto.request.PaymentRequestDTO;
 import com.cpt.payments_processing_service.dto.response.InitiateResponseDTO;
 import com.cpt.payments_processing_service.dto.response.TransactionResponseDTO;
+import com.cpt.payments_processing_service.entity.TransactionEntity;
+import com.cpt.payments_processing_service.entity.TransactionLogEntity;
+import com.cpt.payments_processing_service.entity.TransactionStatusEntity;
 import com.cpt.payments_processing_service.service.factory.PaymentFactoryPattern;
 import com.cpt.payments_processing_service.service.interfaces.PaymentService;
 import com.cpt.payments_processing_service.service.interfaces.PaymentStatusHandler;
@@ -23,6 +29,12 @@ public class PaymentServiceImpl implements PaymentService {
   @Autowired private RestService restService;
   @Autowired private ObjectMapper objectMapper;
 
+  @Autowired private TransactionRepository transactionRepository;
+
+  @Autowired private TransactionStatusRepository transactionStatusRepository;
+
+  @Autowired private TransactionLogRepository transactionLogRepository;
+
   @Override
   @Transactional
   public TransactionResponseDTO createPayment(PaymentRequestDTO requestDTO) {
@@ -33,6 +45,14 @@ public class PaymentServiceImpl implements PaymentService {
 
   @Override
   public InitiateResponseDTO initiatePayment(InitiateRequestDTO requestDTO) {
+    TransactionEntity transaction =
+        transactionRepository
+            .findById(requestDTO.getTxnRef())
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Transaction not found: " + requestDTO.getTxnRef()));
+    updateStatus(transaction, "INITIATED");
     Map<String, String> headers = Map.of("Content-Type", "application/json");
 
     String requestBody = objectMapper.writeValueAsString(requestDTO);
@@ -41,6 +61,32 @@ public class PaymentServiceImpl implements PaymentService {
 
     InitiateResponseDTO responseDTO =
         objectMapper.readValue(response.getBody(), InitiateResponseDTO.class);
+
+    updateStatus(transaction, "PENDING");
     return responseDTO;
+  }
+
+  @Transactional
+  public void updateStatus(TransactionEntity transaction, String newStatusName) {
+
+    String oldStatus = transaction.getTxnStatus().getName();
+
+    TransactionStatusEntity newStatus =
+        transactionStatusRepository
+            .findByNameIgnoreCase(newStatusName)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Invalid transaction status: " + newStatusName));
+
+    transaction.setTxnStatus(newStatus);
+
+    transactionRepository.save(transaction);
+
+    TransactionLogEntity transactionLog = new TransactionLogEntity();
+
+    transactionLog.setTransaction(transaction);
+    transactionLog.setTxnFromStatus(oldStatus);
+    transactionLog.setTxnToStatus(newStatus.getName());
+
+    transactionLogRepository.save(transactionLog);
   }
 }

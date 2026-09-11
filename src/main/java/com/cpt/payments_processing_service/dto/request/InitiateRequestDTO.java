@@ -1,7 +1,9 @@
 package com.cpt.payments_processing_service.dto.request;
 
 import java.util.List;
+import lombok.Data;
 
+@Data
 public class InitiateRequestDTO {
   private String txnRef;
   private List<LineItemDTO> lineItems;
