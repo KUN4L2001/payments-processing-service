@@ -68,7 +68,7 @@ public class PaymentServiceImpl implements PaymentService {
                 () ->
                     new IllegalArgumentException(
                         "Transaction not found: " + requestDTO.getTxnRef()));
-    updateStatus(transaction, "INITIATED");
+    updateStatus(transaction, "INITIATED", "");
     Map<String, String> headers = Map.of("Content-Type", "application/json");
 
     String requestBody = objectMapper.writeValueAsString(requestDTO);
@@ -77,7 +77,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     InitiateResponseDTO responseDTO = processResponse(response);
 
-    updateStatus(transaction, "PENDING");
+    updateStatus(transaction, "PENDING", responseDTO.getId());
     return responseDTO;
   }
 
@@ -99,7 +99,7 @@ public class PaymentServiceImpl implements PaymentService {
   }
 
   @Transactional
-  public void updateStatus(TransactionEntity transaction, String newStatusName) {
+  public void updateStatus(TransactionEntity transaction, String newStatusName, String txnRef) {
 
     String oldStatus = transaction.getTxnStatus().getName();
 
@@ -110,6 +110,7 @@ public class PaymentServiceImpl implements PaymentService {
                 () -> new IllegalArgumentException("Invalid transaction status: " + newStatusName));
 
     transaction.setTxnStatus(newStatus);
+    transaction.setProviderReference(txnRef);
 
     transactionRepository.save(transaction);
 

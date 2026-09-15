@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TransactionStatusRepository
     extends JpaRepository<TransactionStatusEntity, Integer> {
   Optional<TransactionStatusEntity> findByNameIgnoreCase(String name);
+
+  TransactionStatusEntity getByStatus(String status);
 }
