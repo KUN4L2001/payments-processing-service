@@ -26,6 +26,9 @@ public class NotificationServiceImpl implements NotificationService {
   @Override
   public void processStripeNotification(String payload, String signature) {
     try {
+      // verification of payload. Payload string will be visible to all but any one
+      // between changes anything then the signature will not match with
+      // modified body and give error
       Event event = Webhook.constructEvent(payload, signature, webhookConfig.getStripeKey());
       log.info("Stripe event: {}", event);
       if ("checkout.session.completed".equals(event.getType())) {
@@ -48,6 +51,7 @@ public class NotificationServiceImpl implements NotificationService {
         log.info("Transaction fetched and saved as success: {}", transaction);
       }
     } catch (SignatureVerificationException e) {
+      // Data tampering exception
       throw new RuntimeException(e);
     } catch (EventDataObjectDeserializationException e) {
       throw new RuntimeException(e);

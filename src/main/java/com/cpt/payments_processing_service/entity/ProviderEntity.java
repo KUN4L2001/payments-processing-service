@@ -5,11 +5,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Provider")
-@Data
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true)
 public class ProviderEntity {
   @Id
   @Column(name = "ID")

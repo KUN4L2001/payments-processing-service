@@ -111,6 +111,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     transaction.setTxnStatus(newStatus);
     transaction.setProviderReference(txnRef);
+    transaction.setRetryCount(0);
 
     transactionRepository.save(transaction);
 

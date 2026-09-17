@@ -15,14 +15,15 @@ public class RestServiceWithWebClient implements RestService {
 
   private ResponseEntity<String> processRequest(
       String requestUrl, String requestBody, Map<String, String> headers, HttpMethod httpMethod) {
-    return webClient
-        .method(httpMethod)
-        .uri(requestUrl)
-        .headers(httpHeaders -> headers.forEach(httpHeaders::set))
-        .bodyValue(requestBody)
-        .retrieve()
-        .toEntity(String.class)
-        .block();
+    WebClient.RequestBodySpec request =
+        webClient
+            .method(httpMethod)
+            .uri(requestUrl)
+            .headers(httpHeaders -> headers.forEach(httpHeaders::set));
+    if (requestBody != null) {
+      request.bodyValue(requestBody).retrieve().toEntity(String.class).block();
+    }
+    return request.retrieve().toEntity(String.class).block();
   }
 
   @Override

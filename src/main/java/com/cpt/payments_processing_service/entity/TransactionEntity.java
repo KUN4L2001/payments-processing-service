@@ -3,11 +3,15 @@ package com.cpt.payments_processing_service.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Transaction")
-@Data
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true)
 public class TransactionEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)

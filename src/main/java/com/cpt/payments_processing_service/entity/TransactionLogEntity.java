@@ -2,11 +2,15 @@ package com.cpt.payments_processing_service.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Transaction_Log")
-@Data
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true)
 public class TransactionLogEntity {
 
   @Id
