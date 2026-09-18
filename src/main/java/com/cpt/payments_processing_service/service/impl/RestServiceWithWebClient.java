@@ -31,4 +31,15 @@ public class RestServiceWithWebClient implements RestService {
       String requestUrl, String requestBody, Map<String, String> headers) {
     return processRequest(requestUrl, requestBody, headers, HttpMethod.POST);
   }
+
+  @Override
+  public ResponseEntity<String> getRequest(String requestUrl, Map<String, String> headers) {
+    return webClient
+        .get()
+        .uri(requestUrl)
+        .headers(httpHeaders -> httpHeaders.setAll(headers))
+        .retrieve()
+        .toEntity(String.class)
+        .block();
+  }
 }

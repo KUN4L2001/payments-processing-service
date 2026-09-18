@@ -12,4 +12,5 @@ public class MailEvent {
   private String email;
   private String subject;
   private String message;
+  private String link;
 }
