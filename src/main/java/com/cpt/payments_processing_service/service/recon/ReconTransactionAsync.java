@@ -47,7 +47,7 @@ public class ReconTransactionAsync {
       mailEvent.setLink(responseDTO.getUrl());
       log.info("Url: {}", responseDTO.getUrl());
       log.info("Notification sent");
-      kafkaProducerService.sendMailEvent(mailEvent);
+      //      kafkaProducerService.sendMailEvent(mailEvent);
       transactionEntity.setRetryCount(transactionEntity.getRetryCount() + 1);
     } else {
       expireUrl = expireUrl + "/" + transactionEntity.getProviderReference();

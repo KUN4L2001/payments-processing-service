@@ -6,6 +6,7 @@ import com.cpt.payments_processing_service.dto.response.InitiateResponseDTO;
 import com.cpt.payments_processing_service.dto.response.TransactionResponseDTO;
 import com.cpt.payments_processing_service.pojo.response.GenericRequest;
 import com.cpt.payments_processing_service.service.interfaces.PaymentService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class PaymentController {
 
   @PostMapping("/initiate")
   public ResponseEntity<InitiateResponseDTO> initiatePayment(
-      @RequestBody GenericRequest<InitiateRequestDTO> request) {
+      @Valid @RequestBody GenericRequest<InitiateRequestDTO> request) {
     InitiateResponseDTO response = paymentService.initiatePayment(request.getData());
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }

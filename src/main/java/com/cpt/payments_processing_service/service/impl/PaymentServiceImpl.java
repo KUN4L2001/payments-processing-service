@@ -20,6 +20,7 @@ import com.cpt.payments_processing_service.service.interfaces.PaymentStatusHandl
 import com.cpt.payments_processing_service.service.interfaces.RestService;
 import jakarta.transaction.Transactional;
 import java.util.Map;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,8 @@ public class PaymentServiceImpl implements PaymentService {
                     new IllegalArgumentException(
                         "Transaction not found: " + requestDTO.getTxnRef()));
     updateStatus(transaction, "INITIATED", "");
-    Map<String, String> headers = Map.of("Content-Type", "application/json");
+    Map<String, String> headers =
+        Map.of("Content-Type", "application/json", "traceId", MDC.get("traceId"));
 
     String requestBody = objectMapper.writeValueAsString(requestDTO);
     ResponseEntity<String> response =
