@@ -36,4 +36,9 @@ public class PaymentController {
     InitiateResponseDTO response = paymentService.initiatePayment(request.getData());
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
+
+  @PostMapping("/ratelimit/test")
+  public String initiatePayment() {
+    return "Payment initiated";
+  }
 }
